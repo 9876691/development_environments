@@ -63,8 +63,8 @@ RUN groupadd -r coder \
    # && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 USER coder
 
-RUN mkdir -p /home/coder/airsense-dashboard
+RUN mkdir -p /home/coder/project
 
-WORKDIR /home/coder/airsense-dashboard
+WORKDIR /home/coder/project
 
 ENTRYPOINT ["code-server"]
