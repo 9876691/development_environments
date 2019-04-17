@@ -1,0 +1,70 @@
+FROM ubuntu:18.10
+
+# Packages
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    gpg \
+    curl \    
+    lsb-release \
+    add-apt-key \
+    ca-certificates \    
+    dumb-init \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crystal
+RUN curl -sSL https://dist.crystal-lang.org/apt/setup.sh | bash
+RUN apt-get install -y crystal
+RUN apt-get install -y libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev
+
+# - Install Lucky prereqs
+ENV builddir=/build
+RUN mkdir -p $builddir && cd $builddir \
+  && apt-get update -qq \
+  # curl for downloads
+  && apt-get install -y curl \
+  # Heroku
+  && curl https://cli-assets.heroku.com/install.sh | sh 
+
+# Node and Yarn
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
+  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list\
+  && apt-get update -y \
+  && apt-get install -y nodejs yarn 
+
+RUN git clone https://github.com/luckyframework/lucky_cli $builddir/lucky_cli \
+  && cd $builddir/lucky_cli \
+  && git checkout v0.13.2 \
+  && shards install \
+  && crystal build src/lucky.cr --release --no-debug \
+  && mv lucky /usr/local/bin/lucky \
+  && cd / && rm -rf $builddir
+
+# Code-Server - Visual studio code dev env.
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    bsdtar \
+    openssl \
+    locales \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+ENV CODE_VERSION="1.792-vsc1.33.1"
+RUN curl -sL https://github.com/codercom/code-server/releases/download/${CODE_VERSION}/code-server${CODE_VERSION}-linux-x64.tar.gz | tar --strip-components=1 -zx -C /usr/local/bin code-server${CODE_VERSION}-linux-x64/code-server
+
+# Postgres stuff.
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update -y && apt-get install -y --no-install-recommends postgresql postgresql-client
+
+# Setup User
+RUN groupadd -r coder \
+    && useradd -m -r coder -g coder -s /bin/bash 
+   # && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
+USER coder
+
+RUN mkdir -p /home/coder/airsense-dashboard
+
+WORKDIR /home/coder/airsense-dashboard
+
+ENTRYPOINT ["code-server"]
