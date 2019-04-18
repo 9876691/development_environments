@@ -29,7 +29,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list\
   && apt-get update -y \
-  && apt-get install -y nodejs yarn 
+  && apt-get install -y nodejs yarn wget
 
 RUN git clone https://github.com/luckyframework/lucky_cli $builddir/lucky_cli \
   && cd $builddir/lucky_cli \
@@ -74,4 +74,4 @@ RUN mkdir -p /home/coder/project
 
 WORKDIR /home/coder/project
 
-ENTRYPOINT ["code-server"]
+CMD ["code-server"]
