@@ -1,7 +1,9 @@
-FROM ubuntu:18.10
-
 FROM ruby:2.5
+
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+
+RUN apt-get install -y curl \
+   && curl https://cli-assets.heroku.com/install.sh | sh 
 
 # Code-Server - Visual studio code dev env.
 RUN apt-get update && apt-get install --no-install-recommends -y \
