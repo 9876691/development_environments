@@ -23,6 +23,13 @@ RUN curl -sL https://github.com/codercom/code-server/releases/download/${CODE_VE
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y && apt-get install -y --no-install-recommends postgresql postgresql-client
 
+# Install chrome so we can have headless browser testing.
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt-get update \
+    && dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install \
+    && apt-get install -y fonts-liberation libappindicator1 xdg-utils \
+    && apt-get install -y libnss3 
+
 # Setup User
 RUN groupadd -r coder \
     && useradd -m -r coder -g coder -s /bin/bash 
