@@ -61,12 +61,12 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends postgresql p
 
 # Setup User
 RUN groupadd -r coder \
-    && useradd -m -r coder -g coder -s /bin/bash 
-   # && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
+    && useradd -m -r coder -g coder -s /bin/bash \
+    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER coder
 
 RUN mkdir -p /home/coder/project
 
 WORKDIR /home/coder/project
 
-CMD ["code-server"]
+CMD ["code-server --allow-http --no-auth"]
