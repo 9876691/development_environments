@@ -36,7 +36,7 @@ RUN dpkg -i /chrome.deb || apt-get install -yf
 RUN rm /chrome.deb
 
 # Install chromedriver for Selenium
-RUN curl https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_linux64.zip -o /usr/local/bin/chromedriver.zip
+RUN curl https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -o /usr/local/bin/chromedriver.zip
 RUN unzip /usr/local/bin/chromedriver.zip -d /usr/local/bin/
 RUN chmod +x /usr/local/bin/chromedriver
 RUN rm /usr/local/bin/chromedriver.zip
