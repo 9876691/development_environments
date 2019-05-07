@@ -70,4 +70,4 @@ RUN mkdir -p /home/coder/project
 
 WORKDIR /home/coder/project
 
-CMD ["code-server --allow-http --no-auth"]
+CMD ["code-server","--allow-http","--no-auth"]
