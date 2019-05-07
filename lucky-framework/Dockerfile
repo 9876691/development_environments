@@ -40,11 +40,7 @@ RUN git clone https://github.com/luckyframework/lucky_cli $builddir/lucky_cli \
   && cd / && rm -rf $builddir
 
 # Install chrome so we can have headless browser testing.
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt-get update \
-    && dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install \
-    && apt-get install -y fonts-liberation libappindicator1 xdg-utils \
-    && apt-get install -y libnss3 
+RUN apt-get install -y chromium-chromedriver
 
 # Code-Server - Visual studio code dev env.
 RUN apt-get update && apt-get install --no-install-recommends -y \
