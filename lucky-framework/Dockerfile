@@ -1,19 +1,10 @@
-FROM ubuntu:18.10
+FROM crystallang/crystal:0.27.0
 
 # Packages
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    gpg \
-    curl \    
-    lsb-release \
-    add-apt-key \
-    ca-certificates \    
-    dumb-init \
-    && rm -rf /var/lib/apt/lists/*
-
-# Crystal
-RUN curl -sSL https://dist.crystal-lang.org/apt/setup.sh | bash
-RUN apt-get install -y crystal
-RUN apt-get install -y libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev
+RUN apt-get update && \
+  apt-get install -y libgconf-2-4 build-essential curl libreadline-dev libevent-dev libssl-dev libxml2-dev libyaml-dev libgmp-dev git  && \
+  # Cleanup leftovers
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # - Install Lucky prereqs
 ENV builddir=/build
@@ -38,13 +29,15 @@ RUN git clone https://github.com/luckyframework/lucky_cli $builddir/lucky_cli \
   && crystal build src/lucky.cr --release --no-debug \
   && mv lucky /usr/local/bin/lucky \
   && cd / && rm -rf $builddir
+  
+# Install Chrome for Selenium
+RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
+RUN dpkg -i /chrome.deb || apt-get install -yf
+RUN rm /chrome.deb
 
-# Install chrome so we can have headless browser testing.
-RUN apt-get install -y unzip xvfb libxi6 libgconf-2-4
-RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
-RUN echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
-RUN apt-get -y update
-RUN apt-get -y install google-chrome-stable
+# Install chromedriver for Selenium
+RUN curl https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
+RUN chmod +x /usr/local/bin/chromedriver
 
 # Code-Server - Visual studio code dev env.
 RUN apt-get update && apt-get install --no-install-recommends -y \
