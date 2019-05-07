@@ -20,7 +20,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list\
   && apt-get update -y \
-  && apt-get install -y nodejs yarn wget
+  && apt-get install -y nodejs yarn wget zip
 
 RUN git clone https://github.com/luckyframework/lucky_cli $builddir/lucky_cli \
   && cd $builddir/lucky_cli \
@@ -36,8 +36,10 @@ RUN dpkg -i /chrome.deb || apt-get install -yf
 RUN rm /chrome.deb
 
 # Install chromedriver for Selenium
-RUN curl https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
+RUN curl https://chromedriver.storage.googleapis.com/75.0.3770.8/chromedriver_linux64.zip -o /usr/local/bin/chromedriver.zip
+RUN unzip /usr/local/bin/chromedriver.zip -d /usr/local/bin/
 RUN chmod +x /usr/local/bin/chromedriver
+RUN rm /usr/local/bin/chromedriver.zip
 
 # Code-Server - Visual studio code dev env.
 RUN apt-get update && apt-get install --no-install-recommends -y \
