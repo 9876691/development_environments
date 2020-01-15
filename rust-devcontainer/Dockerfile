@@ -71,8 +71,7 @@ RUN apt-get update \
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends postgresql postgresql-client libpq-dev \
   && cargo install diesel_cli --no-default-features --features postgres \
-  && cargo install cargo-watch \
-  && eval "$(starship init bash)"
+  && cargo install cargo-watch
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
