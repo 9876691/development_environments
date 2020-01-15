@@ -39,7 +39,8 @@ RUN apt-get update \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" && sed -i 's/OSH_THEME="font"/OSH_THEME="powerline-plain"/g' ~/.bashrc
+# https://starship.rs/
+RUN curl -fsSL https://starship.rs/install.sh | bash
 
 # Azure command line
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
