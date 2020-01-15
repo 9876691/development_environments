@@ -40,7 +40,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # https://starship.rs/
-RUN curl -fsSL https://starship.rs/install.sh | bash
+RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
 
 # Azure command line
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
@@ -71,7 +71,8 @@ RUN apt-get update \
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends postgresql postgresql-client libpq-dev \
   && cargo install diesel_cli --no-default-features --features postgres \
-  && cargo install cargo-watch
+  && cargo install cargo-watch \
+  && eval "$(starship init bash)"
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
