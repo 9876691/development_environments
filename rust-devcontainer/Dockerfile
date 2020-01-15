@@ -73,6 +73,8 @@ RUN apt-get update -y \
   && cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
 
+RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
+
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
