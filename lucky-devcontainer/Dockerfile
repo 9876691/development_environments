@@ -18,6 +18,12 @@ RUN apt-get update && apt-get install -y  --no-install-recommends \
   curl \
   postgresql-client
 
+# - Install Lucky prereqs
+ENV builddir=/build
+RUN mkdir -p $builddir && cd $builddir \
+  # Heroku
+  && curl https://cli-assets.heroku.com/install.sh | sh 
+
 # Node and Yarn
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
