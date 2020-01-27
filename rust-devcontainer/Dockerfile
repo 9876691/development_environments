@@ -73,6 +73,12 @@ RUN apt-get update -y \
   && cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
 
+# Doctl
+RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz \
+  && tar xvf doctl-1.37.0-linux-amd64.tar.gz \
+  && mv doctl /usr/bin \
+  && rm doctl-1.37.0-linux-amd64.tar.gz
+
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Switch back to dialog for any ad-hoc use of apt-get
