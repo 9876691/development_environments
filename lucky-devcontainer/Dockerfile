@@ -2,11 +2,19 @@ FROM crystallang/crystal:0.32.1 AS base
 
 # Packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
+  libevent-2.0-5 \
+  libc6-dev \
+  llibpcre2-dev \
+  libpng-dev \
+  libssl1.0-dev \
+  libyaml-dev \
+  zlib1g-dev \
   libgconf-2-4 \
   build-essential \
   libreadline-dev \
   libevent-dev \
   libssl-dev \
+  libevent-2.0-5 \
   libxml2-dev \
   libyaml-dev \
   libgmp-dev \
