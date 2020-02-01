@@ -2,7 +2,6 @@ FROM crystallang/crystal:0.32.1 AS base
 
 # Packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  libevent-2.0-5 \
   libc6-dev \
   llibpcre2-dev \
   libpng-dev \
