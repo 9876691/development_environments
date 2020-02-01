@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libreadline-dev \
   libevent-dev \
   libssl-dev \
-  libevent-2.0-5 \
   libxml2-dev \
   libyaml-dev \
   libgmp-dev \
