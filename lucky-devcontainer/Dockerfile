@@ -3,7 +3,6 @@ FROM crystallang/crystal:0.32.1 AS base
 # Packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libc6-dev \
-  llibpcre2-dev \
   libpng-dev \
   libssl1.0-dev \
   libyaml-dev \
