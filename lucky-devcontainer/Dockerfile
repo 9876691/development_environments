@@ -4,7 +4,6 @@ FROM crystallang/crystal:0.32.1 AS base
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libc6-dev \
   libpng-dev \
-  libssl1.0-dev \
   libyaml-dev \
   zlib1g-dev \
   libgconf-2-4 \
