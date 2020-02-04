@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     patch \
     curl \
     git \
+    ssh \
     libpq-dev \
     libssl-dev \
     ruby-dev \
