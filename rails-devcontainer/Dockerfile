@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     libpq-dev \
+    libssl-dev \
     ruby-dev \
     zlib1g-dev \
     liblzma-dev \
