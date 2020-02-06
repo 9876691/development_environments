@@ -6,12 +6,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     patch \
     curl \
     git \
-    ssh \
     libpq-dev \
-    libssl-dev \
+    wget \
+    # python Needed by node-gyp whatever that is.
+    python \ 
+    ssh \
+    zip \
     ruby-dev \
-    zlib1g-dev \
+    libssl-dev \
     gnupg2 \
+    zlib1g-dev \
     liblzma-dev \
     nodejs \
     postgresql-client \
