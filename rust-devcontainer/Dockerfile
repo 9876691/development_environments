@@ -51,7 +51,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
   && apt-get install -y nodejs 
 
 # Pulumi
-RUN curl -fsSL https://get.pulumi.com | bash
+RUN curl -fsSL https://get.pulumi.com | bash -s -- --version 1.10.1
 
 # Helm (used by Pulumi)
 RUN curl -L https://git.io/get_helm.sh | bash
