@@ -30,6 +30,12 @@ RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     && dpkg -i /chrome.deb || apt-get install -yf \
     && rm /chrome.deb
 
+# Install chromedriver for Selenium
+RUN curl https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -o /usr/local/bin/chromedriver.zip \
+    && unzip /usr/local/bin/chromedriver.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/chromedriver \
+    && rm /usr/local/bin/chromedriver.zip
+
 # https://starship.rs/
 RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
 
