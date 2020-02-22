@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python \ 
     ssh \
     zip \
+    unzip \
     ruby-dev \
     libssl-dev \
     gnupg2 \
