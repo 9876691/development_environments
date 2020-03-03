@@ -34,50 +34,48 @@ if [ "$1" == "backup" ]; then
     for db in $databases; do
         echo "dumping $db"
 
-        pg_dump -Fc --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER $db > "/tmp/$db.tar.gz"
+        # -Fc the postgres compressed format.
+        pg_dump -Fc --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER $db > "/tmp/$db.dump"
 
         ls -la "/tmp/$db.tar.gz"
 
         DATE_WITH_TIME=`date "+%Y%m%d-%H%M%S"`
 
         if [ $? == 0 ]; then
-            az storage blob upload -f /tmp/$db.tar.gz -c $AZURE_STORAGE_CONTAINER -n "${db}_${DATE_WITH_TIME}.tar.gz" --connection-string "DefaultEndpointsProtocol=https;BlobEndpoint=https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/;AccountName=$AZURE_STORAGE_ACCOUNT;AccountKey=$AZURE_STORAGE_ACCESS_KEY"
+            az storage blob upload -f /tmp/$db.dump -c $AZURE_STORAGE_CONTAINER -n "${db}_${DATE_WITH_TIME}.dump" --connection-string "DefaultEndpointsProtocol=https;BlobEndpoint=https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/;AccountName=$AZURE_STORAGE_ACCOUNT;AccountKey=$AZURE_STORAGE_ACCESS_KEY"
 
             if [ $? == 0 ]; then
-                rm /tmp/$db.tar.gz
+                rm /tmp/$db.dump
             else
-                >&2 echo "couldn't transfer $db.tar.gz to Azure"
+                >&2 echo "couldn't transfer $db.dump to Azure"
             fi
         else
             >&2 echo "couldn't dump $db"
         fi
     done
 elif [ "$1" == "restore" ]; then
+    # Not tested yet.
     if [ -n "$2" ]; then
-        archives=$2.gz
+        archives=$2
+
+        for archive in $archives; do
+            tmp=/tmp/$archive
+
+            echo "restoring $archive"
+            echo "...transferring"
+
+            az storage blob upload  download  -c $AZURE_STORAGE_CONTAINER -n "${db}_${DATE_WITH_TIME}.dump" --connection-string "DefaultEndpointsProtocol=https;BlobEndpoint=https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/;AccountName=$AZURE_STORAGE_ACCOUNT;AccountKey=$AZURE_STORAGE_ACCESS_KEY" $archive $tmp
+
+            if [ $? == 0 ]; then
+                echo "...restoring"
+                pg_restore --clean --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER $tmp
+            else
+                rm $tmp
+            fi
+        done
     else
-        archives=`/usr/local/bin/azure storage blob list -a $AZURE_STORAGE_ACCOUNT -k "$AZURE_STORAGE_ACCESS_KEY" $AZURE_STORAGE_CONTAINER | grep ".gz" | awk '{print $2}'`
+        >&2 echo "You must provide the name of the blob to restore"
     fi
-
-    for archive in $archives; do
-        tmp=/tmp/$archive
-
-        echo "restoring $archive"
-        echo "...transferring"
-
-        yes | /usr/local/bin/azure storage blob download  -a $AZURE_STORAGE_ACCOUNT -k "$AZURE_STORAGE_ACCESS_KEY" $AZURE_STORAGE_CONTAINER $archive $tmp
-
-        if [ $? == 0 ]; then
-            echo "...restoring"
-            db=`basename --suffix=.gz $archive`
-
-            psql --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER -d $db -c "drop schema public cascade; create schema public;"
-
-            gunzip -c $tmp | psql --host=$POSTGRES_HOST --port=$POSTGRES_PORT --username=$POSTGRES_USER -d $db
-        else
-            rm $tmp
-        fi
-    done
 else
     >&2 echo "You must provide either backup or restore to run this container"
     exit 64
