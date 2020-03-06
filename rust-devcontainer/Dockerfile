@@ -85,7 +85,7 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Collect test results into junit style.
-RUN argo install -f cargo-suity
+RUN cargo install -f cargo-suity
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
