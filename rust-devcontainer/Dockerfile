@@ -25,6 +25,7 @@ RUN apt-get update \
     # Install Rust components
     && rustup update \
     && rustup component add rls rust-analysis rust-src rustfmt clippy \
+    && cargo install -f cargo-suity \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid $USER_GID $USERNAME \
