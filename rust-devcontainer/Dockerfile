@@ -25,7 +25,6 @@ RUN apt-get update \
     # Install Rust components
     && rustup update \
     && rustup component add rls rust-analysis rust-src rustfmt clippy \
-    && cargo install -f cargo-suity \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid $USER_GID $USERNAME \
@@ -47,7 +46,7 @@ RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # Node used for Pulumi 
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -\
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -\
   && apt-get update -y \
   && apt-get install -y nodejs 
 
@@ -84,6 +83,9 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
   && rm doctl-1.37.0-linux-amd64.tar.gz
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
+
+# Collect test results into junit style.
+RUN argo install -f cargo-suity
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
