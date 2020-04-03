@@ -8,6 +8,8 @@ ARG USERNAME=rust
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
+ARG PULUMI_VERSION=1.14.0
+
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -51,7 +53,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -\
   && apt-get install -y nodejs 
 
 # Pulumi
-RUN curl -fsSL https://get.pulumi.com | bash -s -- --version 1.10.1
+RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
 # Helm (used by Pulumi)
 RUN curl -L https://git.io/get_helm.sh | bash
