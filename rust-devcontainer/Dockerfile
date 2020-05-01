@@ -8,7 +8,7 @@ ARG USERNAME=rust
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PULUMI_VERSION=1.14.0
+ARG PULUMI_VERSION=2.1.0
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -87,7 +87,10 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Collect test results into junit style.
-RUN cargo install -f cargo-suity
+RUN cargo install -f cargo-suity 
+
+# Cache builds
+RUN cargo install sccache
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
