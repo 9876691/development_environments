@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Cleanup leftovers
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN gem install rails && gem install rake
+RUN gem install rails && gem install rake && gem install bundler
 
 # Yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
