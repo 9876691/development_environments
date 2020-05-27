@@ -17,7 +17,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 RUN wget https://github.com/FiloSottile/age/releases/download/v1.0.0-beta2/age-v1.0.0-beta2-linux-amd64.tar.gz && \
   tar -xvzf age-v1.0.0-beta2-linux-amd64.tar.gz \
   && mv age/age /usr/bin \
-  && chmod +x /urs/bin/age
+  && chmod +x /usr/bin/age
 
 ADD start.sh /start.sh
 RUN chmod 0755 /start.sh
