@@ -18,7 +18,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
     #
     # Verify git, needed tools installed
-    && apt-get -y install git iproute2 procps lsb-release unzip \
+    && apt-get -y install git build-essential iproute2 procps lsb-release unzip \
     #
     # Install other dependencies
     # pkg-config & libssl-dev is for reqwest which uses rust-native-tls
