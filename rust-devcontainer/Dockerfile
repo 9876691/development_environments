@@ -8,7 +8,7 @@ ARG USERNAME=rust
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PULUMI_VERSION=2.2.1
+ARG PULUMI_VERSION=2.6.1
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
