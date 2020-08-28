@@ -24,6 +24,9 @@ RUN apt-get update \
     # pkg-config & libssl-dev is for reqwest which uses rust-native-tls
     && apt-get install -y lldb curl pkg-config libssl-dev \
     #
+    # Stuff needed for cypress
+    apt-get install -y --no-install-recommends libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
+    #
     # Install Rust components
     && rustup update \
     && rustup component add rls rust-analysis rust-src rustfmt clippy \
