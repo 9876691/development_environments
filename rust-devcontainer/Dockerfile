@@ -99,6 +99,6 @@ RUN cargo install sccache
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
 
-USER USERNAME
+USER $USERNAME
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
