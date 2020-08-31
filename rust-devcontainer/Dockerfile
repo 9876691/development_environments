@@ -4,7 +4,7 @@ FROM rust:1.45-slim-buster
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
 # with bind mounts. Update USER_UID / USER_GID if yours is not 1000. See
 # https://aka.ms/vscode-remote/containers/non-root-user for details.
-ARG USERNAME=rust
+ARG USERNAME=development
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
@@ -35,9 +35,9 @@ RUN apt-get update \
     && groupadd --gid $USER_GID $USERNAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
     # [Optional] Add sudo support for the non-root user
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
-    && chmod 0440 /etc/sudoers.d/$USERNAME \
+    #&& apt-get install -y sudo \
+    #&& echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
+    #&& chmod 0440 /etc/sudoers.d/$USERNAME \
     #
     # Clean up
     && apt-get autoremove -y \
@@ -60,6 +60,8 @@ RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
 # Helm (used by Pulumi)
 RUN curl -L https://git.io/get_helm.sh | bash
+
+RUN helm init --client-only
 
 # Install kubectl
 RUN  curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
@@ -86,22 +88,6 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
   && tar xvf doctl-1.37.0-linux-amd64.tar.gz \
   && mv doctl /usr/bin \
   && rm doctl-1.37.0-linux-amd64.tar.gz
-  
-# Install Chrome for Selenium
-RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb \
-    && dpkg -i /chrome.deb || apt-get install -yf \
-    && rm /chrome.deb
-    
-# Install Chrome WebDriver
-RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
-    mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION && \
-    curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip && \
-    unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION && \
-    rm /tmp/chromedriver_linux64.zip && \
-    chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver && \
-    ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver
-
-RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Collect test results into junit style.
 RUN cargo install -f cargo-suity 
@@ -112,3 +98,7 @@ RUN cargo install sccache
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
+
+USER USERNAME
+
+RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
