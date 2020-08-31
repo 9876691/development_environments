@@ -84,6 +84,9 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
 
+# Pulumi
+RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
+
 USER $USERNAME
 
 # Stuff requirred bu diesel_cli
@@ -95,8 +98,5 @@ RUN cargo install -f cargo-suity
 
 # Cache builds
 RUN cargo install sccache
-
-# Pulumi
-RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
