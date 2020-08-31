@@ -39,6 +39,16 @@ RUN apt-get update \
     #&& echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
     #&& chmod 0440 /etc/sudoers.d/$USERNAME \
     #
+    # Install Docker CE CLI (Docker in Docker)
+    && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release \
+    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | apt-key add - 2>/dev/null \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli \
+    #
+    # Stuff required by diesel
+    && apt-get install -y postgresql postgresql-client libpq-dev \
+    #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
@@ -55,9 +65,6 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -\
   && apt-get update -y \
   && apt-get install -y nodejs 
 
-# Pulumi
-RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
-
 # Helm (used by Pulumi)
 RUN curl -L https://git.io/get_helm.sh | bash
 
@@ -67,27 +74,21 @@ RUN helm init --client-only
 RUN  curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
   && chmod +x /usr/local/bin/kubectl
 
-# Docker in docker
-RUN apt-get update \
-    #
-    # Install Docker CE CLI
-    && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release \
-    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | apt-key add - 2>/dev/null \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
-    && apt-get update \
-    && apt-get install -y docker-ce-cli
-
-# Stuff requirred bu diesel_cli
-RUN apt-get update -y \
-  && apt-get install -y --no-install-recommends postgresql postgresql-client libpq-dev \
-  && cargo install diesel_cli --no-default-features --features postgres \
-  && cargo install cargo-watch
-
 # Doctl
 RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz \
   && tar xvf doctl-1.37.0-linux-amd64.tar.gz \
   && mv doctl /usr/bin \
   && rm doctl-1.37.0-linux-amd64.tar.gz
+
+# Switch back to dialog for any ad-hoc use of apt-get
+ENV DEBIAN_FRONTEND=
+ENV SHELL /bin/bash
+
+USER $USERNAME
+
+# Stuff requirred bu diesel_cli
+RUN cargo install diesel_cli --no-default-features --features postgres \
+  && cargo install cargo-watch
 
 # Collect test results into junit style.
 RUN cargo install -f cargo-suity 
@@ -95,10 +96,7 @@ RUN cargo install -f cargo-suity
 # Cache builds
 RUN cargo install sccache
 
-# Switch back to dialog for any ad-hoc use of apt-get
-ENV DEBIAN_FRONTEND=
-ENV SHELL /bin/bash
-
-USER $USERNAME
+# Pulumi
+RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
