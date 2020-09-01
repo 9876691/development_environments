@@ -58,17 +58,12 @@ RUN apt-get update \
 RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
 
 # Azure command line
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+# RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-# Node used for Pulumi 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -\
+# Node used for Pulumi - https://nodejs.org/en/about/releases/
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -\
   && apt-get update -y \
   && apt-get install -y nodejs 
-
-# Helm (used by Pulumi)
-RUN curl -L https://git.io/get_helm.sh | bash
-
-RUN helm init --client-only
 
 # Install kubectl
 RUN  curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
@@ -84,10 +79,15 @@ RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doc
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
 
-# Pulumi
-RUN curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
+# Helm (used by Pulumi)
+RUN curl -L https://git.io/get_helm.sh | bash
 
 USER $USERNAME
+
+# Pulumi
+RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
+
+RUN helm init --client-only
 
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
