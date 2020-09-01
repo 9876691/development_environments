@@ -8,7 +8,7 @@ ARG USERNAME=development
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PULUMI_VERSION=2.8.2
+ARG PULUMI_VERSION=2.9.2
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
