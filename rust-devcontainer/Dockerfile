@@ -87,8 +87,6 @@ USER $USERNAME
 # Pulumi
 RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
-RUN helm init --client-only
-
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
@@ -97,6 +95,6 @@ RUN cargo install diesel_cli --no-default-features --features postgres \
 RUN cargo install -f cargo-suity 
 
 # Cache builds
-RUN cargo install sccache
+#RUN cargo install sccache
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
