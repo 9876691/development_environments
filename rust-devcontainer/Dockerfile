@@ -97,4 +97,7 @@ RUN cargo install -f cargo-suity
 # Cache builds
 #RUN cargo install sccache
 
+# Maybe use this for caching ci-cd builds.
+RUN cargo install cargo-cache
+
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
