@@ -57,8 +57,8 @@ RUN apt-get update \
 # https://starship.rs/
 RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
 
-# Azure command line
-# RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+# Azure command line (needed)
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # Node used for Pulumi - https://nodejs.org/en/about/releases/
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -\
