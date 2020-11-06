@@ -82,14 +82,14 @@ ENV SHELL /bin/bash
 # Helm (used by Pulumi)
 RUN curl -L https://git.io/get_helm.sh | bash
 
+# Linkerd
+RUN curl -sL https://run.linkerd.io/install | sh
+RUN export PATH=$PATH:$HOME/.linkerd2/bin
+
 USER $USERNAME
 
 # Pulumi
 RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
-
-# Linkerd
-RUN curl -sL https://run.linkerd.io/install | sh
-RUN export PATH=$PATH:$HOME/.linkerd2/bin
 
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
