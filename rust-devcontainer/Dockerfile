@@ -87,6 +87,9 @@ USER $USERNAME
 # Pulumi
 RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
 
+# Linkerd
+RUN curl -sL https://run.linkerd.io/install | sh
+
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
