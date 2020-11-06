@@ -89,6 +89,7 @@ RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VER
 
 # Linkerd
 RUN curl -sL https://run.linkerd.io/install | sh
+RUN export PATH=$PATH:$HOME/.linkerd2/bin
 
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
