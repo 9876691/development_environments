@@ -94,12 +94,9 @@ RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VER
 # Stuff requirred bu diesel_cli
 RUN cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
-
-# Collect test results into junit style.
-RUN cargo install -f cargo-suity 
-
-# Cache builds
-#RUN cargo install sccache
+  
+# cargo plugin for linting your dependencies.
+RUN cargo install cargo-deny
 
 # Maybe use this for caching ci-cd builds.
 RUN cargo install cargo-cache
