@@ -96,7 +96,7 @@ RUN cargo install diesel_cli --no-default-features --features postgres \
   && cargo install cargo-watch
   
 # cargo plugin for linting your dependencies.
-RUN cargo install cargo-deny
+RUN cargo install cargo-deny audit outdated trunk
 
 # Maybe use this for caching ci-cd builds.
 RUN cargo install cargo-cache
