@@ -1,4 +1,4 @@
-FROM rust:1.46-slim-buster
+FROM rust:1.47-slim-buster
 
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
