@@ -1,4 +1,4 @@
-FROM rust:1.47-slim-buster
+FROM rust:1.48-slim-buster
 
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
@@ -8,7 +8,7 @@ ARG USERNAME=development
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PULUMI_VERSION=2.9.2
+ARG PULUMI_VERSION=2.14.0
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -54,52 +54,41 @@ RUN apt-get update \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# https://starship.rs/
-RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force
-
-# Azure command line (needed)
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-
-# Node used for Pulumi - https://nodejs.org/en/about/releases/
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -\
-  && apt-get update -y \
-  && apt-get install -y nodejs 
-
-# Install kubectl
-RUN  curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-  && chmod +x /usr/local/bin/kubectl
-
-# Doctl
-RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz \
-  && tar xvf doctl-1.37.0-linux-amd64.tar.gz \
-  && mv doctl /usr/bin \
-  && rm doctl-1.37.0-linux-amd64.tar.gz
-
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
 ENV SHELL /bin/bash
 
-# Helm (used by Pulumi)
-RUN curl -L https://git.io/get_helm.sh | bash
-
-# Linkerd
-RUN curl -sL https://run.linkerd.io/install | sh
-RUN export PATH=$PATH:$HOME/.linkerd2/bin
+# https://starship.rs/
+RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force \
+  # Azure command line (needed)
+  && curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
+  # Node used for Pulumi - https://nodejs.org/en/about/releases/
+  && curl -sL https://deb.nodesource.com/setup_14.x | bash -\
+  && apt-get update -y \
+  && apt-get install -y nodejs \
+  # Kubectl
+  && curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+  && chmod +x /usr/local/bin/kubectl \
+  # Doctl
+  && curl -OL https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz \
+  && tar xvf doctl-1.37.0-linux-amd64.tar.gz \
+  && mv doctl /usr/bin \
+  && rm doctl-1.37.0-linux-amd64.tar.gz \
+  # Helm (used by Pulumi)
+  && curl -L https://git.io/get_helm.sh | bash \
+  # Linkerd
+  && curl -sL https://run.linkerd.io/install | sh 
 
 USER $USERNAME
 
 # Pulumi
-RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION
-
+RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VERSION \
 # Stuff requirred bu diesel_cli
-RUN cargo install diesel_cli --no-default-features --features postgres \
-  && cargo install cargo-watch
+  && cargo install diesel_cli --no-default-features --features postgres \
+  && cargo install cargo-watch \
+  # cargo plugin for linting your dependencies.
+  && cargo install cargo-deny audit outdated trunk
   
-# cargo plugin for linting your dependencies.
-RUN cargo install cargo-deny audit outdated trunk wasm-bindgen-cli \
-  && rustup target add wasm32-unknown-unknown
-
-# Maybe use this for caching ci-cd builds.
-RUN cargo install cargo-cache
+RUN cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
