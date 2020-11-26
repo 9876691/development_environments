@@ -77,7 +77,8 @@ RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force \
   # Helm (used by Pulumi)
   && curl -L https://git.io/get_helm.sh | bash \
   # Linkerd
-  && curl -sL https://run.linkerd.io/install | sh 
+  && curl -sL https://run.linkerd.io/install | sh \
+  && curl -L -s https://github.com/derailed/k9s/releases/download/v0.24.1/k9s_Linux_x86_64.tar.gz | tar xvz -C /tmp && mv /tmp/k9s /usr/bin
 
 USER $USERNAME
 
