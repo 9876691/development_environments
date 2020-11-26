@@ -88,7 +88,8 @@ RUN cd ~ && curl -fsSL https://get.pulumi.com | bash -s -- --version $PULUMI_VER
   && cargo install cargo-watch \
   # cargo plugin for linting your dependencies.
   && cargo install cargo-deny audit outdated trunk
-  
-RUN cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown
+
+# The below doesn't work.
+#RUN cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown
 
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
