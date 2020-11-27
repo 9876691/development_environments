@@ -78,7 +78,8 @@ RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --force \
   && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh \
   # Linkerd
   && curl -sL https://run.linkerd.io/install | sh \
-  && curl -L -s https://github.com/derailed/k9s/releases/download/v0.24.1/k9s_Linux_x86_64.tar.gz | tar xvz -C /tmp && mv /tmp/k9s /usr/bin
+  && curl -L -s https://github.com/derailed/k9s/releases/download/v0.24.1/k9s_Linux_x86_64.tar.gz | tar xvz -C /tmp && mv /tmp/k9s /usr/bin \
+  && git clone --depth 1 https://github.com/npryce/adr-tools && mv ard-tools/src/* /usr/bin && rm -rf adr-tools
 
 USER $USERNAME
 
