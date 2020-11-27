@@ -47,7 +47,7 @@ RUN apt-get update \
     && apt-get install -y docker-ce-cli \
     #
     # Stuff required by diesel
-    && apt-get install -y postgresql postgresql-client libpq-dev \
+    && apt-get install -y postgresql postgresql-client libpq-dev figlet \
     #
     # Clean up
     && apt-get autoremove -y \
