@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+
+  development:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    
+    volumes:
+      - ..:/vscode:cached
+      - target:/vscode/target # Set target as a volume for performance. 
+      - ~/.ssh:/home/host-ssh:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    env_file:
+      - ../.env
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    working_dir: /vscode
+
+volumes:
+  target:
