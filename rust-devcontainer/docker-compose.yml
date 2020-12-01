@@ -14,16 +14,16 @@ services:
     
     volumes:
       - ..:/vscode:cached
-      - target:/vscode/target # Set target as a volume for performance. 
-      - node_modules:/vscode/node_modules # Set target as a volume for performance. 
       - ~/.ssh:/home/host-ssh:cached
       - /var/run/docker.sock:/var/run/docker.sock
+      #- target:/vscode/target # Set target as a volume for performance. 
+      #- node_modules:/vscode/node_modules # Set target as a volume for performance. 
 
     environment:
       DATABASE_URL: postgresql://vscode:testpassword@db:5432
 
-    env_file:
-      - ../.env
+    #env_file:
+    #  - ../.env
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
