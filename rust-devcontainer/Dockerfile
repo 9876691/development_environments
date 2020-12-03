@@ -100,7 +100,7 @@ RUN cd ~ \
   #  | |___| | | | |   <  __/ | | (_| |
   #  |_____|_|_| |_|_|\_\___|_|  \__,_|
   # 
-  && cd ~ && curl -sL https://run.linkerd.io/install | sh && echo "PATH=\"$HOME/.linkerd2/bin:$PATH" >> ~/.profile \
+  && cd ~ && curl -sL https://run.linkerd.io/install | sh \
   #   __  __ _          
   #  |  \/  (_)___  ___ 
   #  | |\/| | / __|/ __|
@@ -119,7 +119,8 @@ RUN echo "alias gst='git status'"  >> ~/.bashrc \
     && echo "alias gcm='git checkout master'"  >> ~/.bashrc \  
     && echo "alias gp='git push'"  >> ~/.bashrc \  
     && echo "alias gcam='git commit -a -m'"  >> ~/.bashrc \  
+    && echo "alias linkerd='~/.linkerd2/bin/linkerd'"  >> ~/.bashrc \  
     && echo "alias gpsup='git push --set-upstream origin $(git_current_branch)'"  >> ~/.bashrc \  
     && echo "alias gcb='git checkout -b'" >> ~/.bashrc \
     && echo "alias gitsetup='git config --global user.name \$NAME && git config --global user.email \$EMAIL && mkdir -p ~/.ssh && cp -u /home/host-ssh/id_rsa ~/.ssh && chmod 600 ~/.ssh/id_rsa && ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub'" >> ~/.bashrc
-  
+    
