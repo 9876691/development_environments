@@ -1,4 +1,4 @@
-FROM rust:slim
+FROM rust:slim AS builder
     
 RUN cargo install diesel_cli --no-default-features --features postgres
 
