@@ -101,6 +101,17 @@ RUN cd ~ \
   #  |_____|_|_| |_|_|\_\___|_|  \__,_|
   # 
   && cd ~ && curl -sL https://run.linkerd.io/install | sh \
+  #   __  __      _____ _       
+  #  |  \/  | ___|  ___| |_   _ 
+  #  | |\/| |/ __| |_  | | | | |
+  #  | |  | | (__|  _| | | |_| |
+  #  |_|  |_|\___|_|   |_|\__, |
+  #                       |___/ 
+  && curl -sL https://github.com/cantino/mcfly/releases/download/v0.5.0/mcfly-v0.5.0-x86_64-unknown-linux-gnu.tar.gz | tar xvz \
+  && sudo mv mcfly* /usr/bin \
+  && echo "if [[ -r /usr/bin/mcfly.bash ]]; then" >> ~/.bashrc \
+  && echo "  source /usr/bin/mcfly.bash" >> ~/.bashrc \
+  && echo "fi" >> ~/.bashrc \
   #   __  __ _          
   #  |  \/  (_)___  ___ 
   #  | |\/| | / __|/ __|
