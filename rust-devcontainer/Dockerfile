@@ -119,6 +119,7 @@ RUN cd ~ \
   #  |_|  |_|_|___/\___|
   #  
   && sudo apt-get install -y figlet \
+  && cargo install rage \
   && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
   # Clean up
   && sudo apt-get autoremove -y \
