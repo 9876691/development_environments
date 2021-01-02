@@ -6,7 +6,7 @@ RUN apt-get update -y \
     
 RUN cargo install diesel_cli --no-default-features --features postgres
 
-FROM debian:slim
+FROM debian:bullseye-slim
 
 RUN apt-get update -y \  
     && apt-get install -y --no-install-recommends postgresql-client libpq-dev \
