@@ -52,5 +52,6 @@ export function installCertManager(namespace: k8s.core.v1.Namespace) {
 
 ## Consequences
 
+* Cert manager requires that you can prove you own the domain. https://cert-manager.io/docs/configuration/acme/dns01/#setting-nameservers-for-dns01-self-check There's a way to do this using cludflare so we need a lowly provisioned API key to allow cert manager to a TXT files to our domain.
 * The helm install repeatedly failed. Maybe due to https://github.com/jetstack/cert-manager/issues/3062
 * We had to upgrade AKS. Your Kubernetes server must be at or later than version 1.16. To check the version, enter kubectl version. 
