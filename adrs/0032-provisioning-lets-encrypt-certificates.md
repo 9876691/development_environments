@@ -61,3 +61,4 @@ export function installCertManager(namespace: k8s.core.v1.Namespace) {
 * https://github.com/vitobotta/pulumi-kubernetes-deployments/blob/master/cert-manager/CertManager.ts
 * https://github.com/lbrlabs/pulumi-cert-manager/blob/master/index.ts
 * https://cert-manager.io/docs/
+* https://medium.com/flant-com/cert-manager-lets-encrypt-ssl-certs-for-kubernetes-7642e463bbce
