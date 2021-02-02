@@ -1,4 +1,4 @@
-# 0011. Asset Pipeline
+# 0009 Asset Pipeline
 
 Date: 15-09-2020
 
@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-We need an asset pipeline to concatenate and minify or compress TypeScript and CSS assets. 
+We need an asset pipeline to concatenate and minify or compress TypeScript and CSS assets. Also to handle JS/Typescript dependencies via node.
 
 ### Criteria
 
