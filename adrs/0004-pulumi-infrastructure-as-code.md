@@ -1,4 +1,4 @@
-# 0004. Infrastructure as code solutions
+# 0004. Pulumi for Infrastructure as Code
 
 Date: 31-08-2020
 
