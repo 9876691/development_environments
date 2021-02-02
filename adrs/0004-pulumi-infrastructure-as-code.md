@@ -1,4 +1,4 @@
-# 0004. Infratstructure as code solutions
+# 0004. Infrastructure as code solutions
 
 Date: 31-08-2020
 
