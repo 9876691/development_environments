@@ -1,10 +1,12 @@
-# Monorepo vs multirepo
+# 0013 Monorepo vs multirepo
 
+Date: 02-02-2021
 
-## Summary
+## Status
 
+Accepted. Open to revisiting if/when new tooling becomes available for managing monorepos and/or polyrepos.
 
-### Issue
+## Context
 
 Our project involves developing three major categories of software:
 
@@ -31,18 +33,7 @@ Monorepo when an organization/team/project is relatively small, and rapid iterat
 
 Polyrepo when an organization/team/project is relatively large, and sustaining stability is higher priority than rapid iteration.
 
-
-### Status
-
-Decided. Open to revisiting if/when new tooling becomes available for managing monorepos and/or polyrepos.
-
-
 ## Details
-
-
-### Assumptions
-
-All the code that we're developing is for one organization's offerings, and not for the general public. I.e. the Broker-Dealer isn't aiming to have anything like general public volunteer developers.
 
 
 ### Constraints
@@ -76,34 +67,6 @@ Monorepo scaling issues may make it increasing valuable to transition to a polyr
 
 Transition from monorepo to polyrepo is a signficant devops task, and will need to be planned, managed, and programmed.
 
-
-## Related
-
-
-### Related decisions
-
-We will create decisions for related tooling to manage monorepos (e.g. Google Blaze) and polyrepos (e.g. Lyft Refactorator).
-
-
-### Related requirements
-
-We need to develop the CI+CD pipeline to work well with git.
-
-
-### Related artifacts
-
-We expect the repo organization to have related artifacts for provisioning, configuration management, testing, and similar devops areas. 
-
-
-### Related principles
-
 Easily reversable. If the monorepo doesn't work in practice, or isn't wanted by leadership, it's simple to change to polyrepo.
 
 Customer Obsession. We value getting the project in the hands of customers, and we believe that a monoreop can get us there faster than a polyrepo, and also help us iterate faster.
-
-Think big. Google and Facebook are very strong advocates for monorepos over polyrepos, because all the core offerings can be developed/tested/deployed in concert.
-
-
-## Notes
-
-Add any notes here.
