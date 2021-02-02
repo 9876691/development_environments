@@ -1,4 +1,4 @@
-# 0005. CI CD pipeline and git hosting.
+# 0005. CI CD pipeline.
 
 Date: 31-08-2020
 
