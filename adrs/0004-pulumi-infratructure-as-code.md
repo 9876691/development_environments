@@ -8,11 +8,11 @@ Accepted
 
 ## Context
 
-Best practice for deploying micro service applications is to use infratstructure as code tooling. The aim is deploy the entire stack all from source code.
+Best practice for deploying micro service applications is to use infrastructure as code tooling. The aim is to have a single source of truth in the source code for all the infrastructure.
 
 ### Criteria
 
-* Should work with our chosen cloud provider. (Digital Ocean)
+* Should work with our chosen cloud provider.
 * Easy to learn and use.
 * For loops, functions and type safety where possible.
 * Should handle secrets
