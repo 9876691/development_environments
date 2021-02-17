@@ -2,7 +2,7 @@
 # figlet with comments | sed -e 's/^/#  /'
 FROM mcr.microsoft.com/vscode/devcontainers/rust:0-1
 
-ARG PULUMI_VERSION=2.15.0
+ARG PULUMI_VERSION=2.20.0
 
 USER vscode
 
@@ -118,7 +118,7 @@ RUN cd ~ \
   #  | |  | | \__ \ (__ 
   #  |_|  |_|_|___/\___|
   #  
-  && sudo apt-get install -y figlet \
+  && sudo apt-get install -y figlet texlive-latex-extra latexmk swaks telnet \
   && cargo install rage \
   && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
   # Clean up
