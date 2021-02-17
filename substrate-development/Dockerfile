@@ -5,7 +5,7 @@ RUN sudo apt-get update && sudo apt-get -y install clang libclang-dev llvm
 # Add nightly to the toolchain.
 RUN cargo install --git https://github.com/hicommonwealth/cargo-contract cargo-contract --force \
     && rustup toolchain install nightly \
-    && rustup target add wasm32-unknown-unknown --toolchain nightly
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
     && rustup toolchain install nightly --component rust-src
 
 # The noide we can run to deploy contracts.
