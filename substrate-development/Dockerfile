@@ -2,8 +2,11 @@ FROM ianpurton/rust-devcontainer:latest AS base
 
 RUN sudo apt-get update && sudo apt-get -y install clang libclang-dev llvm \
     # https://contracts.edgewa.re/#/0/setup
-    && rustup toolchain install nightly-2020-06-01 \
-    && rustup target add wasm32-unknown-unknown --toolchain nightly-2020-06-01 \
+    # Specifying the date, makes the rest of the installation fail
+    #&& rustup toolchain install nightly-2020-06-01 \
+    #&& rustup target add wasm32-unknown-unknown --toolchain nightly-2020-06-01 \
+    && rustup toolchain install nightly \
+    && rustup target add wasm32-unknown-unknown --toolchain nightly \
     && rustup component add rust-src --toolchain nightly \
     && cargo install --git https://github.com/hicommonwealth/cargo-contract cargo-contract --force \
     # Canvas node to run things
