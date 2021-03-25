@@ -4,6 +4,13 @@
 
 `docker build -t ianpurton/rust-devcontainer .` 
 
+
+## Start a new Project
+
+`cargo new proj-name`
+
+`cd proj-name`
+
 ## Create .devcontainer
 
 ```
