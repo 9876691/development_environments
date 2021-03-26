@@ -120,7 +120,7 @@ RUN cd ~ \
   #  
   && sudo apt-get install -y figlet texlive-latex-extra latexmk swaks telnet \
   && cargo install rage \
-  && cargo install trunk \
+  && cargo install --locked trunk \
   && cargo install --force cargo-make \
   && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
   # Clean up
