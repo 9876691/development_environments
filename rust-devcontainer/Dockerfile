@@ -123,17 +123,20 @@ RUN cd ~ \
   && cargo install --locked trunk \
   && cargo install --force cargo-make \
   && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
-  # Clean up
-  && sudo apt-get autoremove -y \
-  && sudo apt-get clean -y \
-  && sudo rm -rf /var/lib/apt/lists/* \
   # Chromedriver
   && PLATFORM=linux64 \
   && VERSION=$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
   && curl http://chromedriver.storage.googleapis.com/$VERSION/chromedriver_$PLATFORM.zip -LOk \
   && unzip chromedriver_* \
   && rm chromedriver_* \
-  && mv chromedriver /usr/bin
+  && mv chromedriver /usr/bin \
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && sudo apt install -y ./google-chrome-stable_current_amd64.deb \
+  && rm google-chrome* \
+  # Clean up
+  && sudo apt-get autoremove -y \
+  && sudo apt-get clean -y \
+  && sudo rm -rf /var/lib/apt/lists/*
 
 
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
