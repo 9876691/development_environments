@@ -128,8 +128,8 @@ RUN cd ~ \
   && VERSION=$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
   && curl http://chromedriver.storage.googleapis.com/$VERSION/chromedriver_$PLATFORM.zip -LOk \
   && unzip chromedriver_* \
+  && sudo mv chromedriver /usr/bin \
   && rm chromedriver_* \
-  && mv chromedriver /usr/bin \
   && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
   && sudo apt install -y ./google-chrome-stable_current_amd64.deb \
   && rm google-chrome* \
