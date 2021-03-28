@@ -126,7 +126,14 @@ RUN cd ~ \
   # Clean up
   && sudo apt-get autoremove -y \
   && sudo apt-get clean -y \
-  && sudo rm -rf /var/lib/apt/lists/*
+  && sudo rm -rf /var/lib/apt/lists/* \
+  # Chromedriver
+  && PLATFORM=linux64 \
+  && VERSION=$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+  && curl http://chromedriver.storage.googleapis.com/$VERSION/chromedriver_$PLATFORM.zip -LOk \
+  && unzip chromedriver_* \
+  && rm chromedriver_* \
+  && mv chromedriver /usr/bin
 
 
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
