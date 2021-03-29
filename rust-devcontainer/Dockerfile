@@ -123,7 +123,14 @@ RUN cd ~ \
   && cargo install --locked trunk \
   && cargo install --force cargo-make \
   && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
-  # Chromedriver
+  #    ____ _                              ____       _                
+  #   / ___| |__  _ __ ___  _ __ ___   ___|  _ \ _ __(_)_   _____ _ __ 
+  #  | |   | '_ \| '__/ _ \| '_ ` _ \ / _ \ | | | '__| \ \ / / _ \ '__|
+  #  | |___| | | | | | (_) | | | | | |  __/ |_| | |  | |\ V /  __/ |   
+  #   \____|_| |_|_|  \___/|_| |_| |_|\___|____/|_|  |_| \_/ \___|_|   
+  # 
+  # Sanity check with https://gist.github.com/ianpurton/8f2340ef01a2d0bc4efed60b5c157885
+  #
   && PLATFORM=linux64 \
   && VERSION=$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
   && curl http://chromedriver.storage.googleapis.com/$VERSION/chromedriver_$PLATFORM.zip -LOk \
