@@ -148,7 +148,7 @@ RUN cd ~ \
 
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
     && echo "alias gcm='git checkout master'"  >> ~/.bashrc \  
-    && echo "alias c='clear'"  >> ~/.bashrc \  
+    && echo "alias c=clear"  >> ~/.bashrc \  
     && echo "alias gp='git push'"  >> ~/.bashrc \  
     && echo "alias gcam='git commit -a -m'"  >> ~/.bashrc \  
     && echo "alias linkerd='~/.linkerd2/bin/linkerd'"  >> ~/.bashrc \  
