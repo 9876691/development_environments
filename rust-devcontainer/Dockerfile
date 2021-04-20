@@ -2,7 +2,7 @@
 # figlet with comments | sed -e 's/^/#  /'
 FROM mcr.microsoft.com/vscode/devcontainers/rust:0-1
 
-ARG PULUMI_VERSION=2.20.0
+ARG PULUMI_VERSION=3.0.0
 
 USER vscode
 
