@@ -67,9 +67,6 @@ RUN cd ~ \
   #  |____/|_|\___||___/\___|_|  \____|_____|___|
   # 
   && cargo install diesel_cli --no-default-features --features postgres \
-
-  # cargo plugin for linting your dependencies.
-  && cargo install cargo-watch cargo-deny audit outdated trunk \
   #   ____  ____   ___  _     
   #  |  _ \/ ___| / _ \| |    
   #  | |_) \___ \| | | | |    
@@ -124,7 +121,8 @@ RUN cd ~ \
   && wget -qO- https://github.com/thedodd/trunk/releases/download/${TRUNK_VERSION}/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf- \
   && sudo mv trunk /usr/bin
   && cargo install --force cargo-make \
-  && cargo install wasm-bindgen-cli  && rustup target add wasm32-unknown-unknown \
+  && cargo install wasm-bindgen-cli cargo-watch cargo-deny audit outdate \
+  && rustup target add wasm32-unknown-unknown \
   #    ____ _                              ____       _                
   #   / ___| |__  _ __ ___  _ __ ___   ___|  _ \ _ __(_)_   _____ _ __ 
   #  | |   | '_ \| '__/ _ \| '_ ` _ \ / _ \ | | | '__| \ \ / / _ \ '__|
