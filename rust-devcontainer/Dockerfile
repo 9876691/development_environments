@@ -119,7 +119,7 @@ RUN cd ~ \
   && sudo apt-get install -y figlet texlive-latex-extra latexmk swaks telnet \
   && cargo install rage \
   && wget -qO- https://github.com/thedodd/trunk/releases/download/${TRUNK_VERSION}/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf- \
-  && sudo mv trunk /usr/bin
+  && sudo mv trunk /usr/bin \
   && cargo install --force cargo-make \
   && cargo install wasm-bindgen-cli cargo-watch cargo-deny audit outdate \
   && rustup target add wasm32-unknown-unknown \
