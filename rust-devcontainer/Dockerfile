@@ -3,7 +3,6 @@
 FROM mcr.microsoft.com/vscode/devcontainers/rust:1
 
 ARG PULUMI_VERSION=3.0.0
-ARG TRUNK_VERSION=v0.11.0
 
 USER vscode
 
