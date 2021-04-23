@@ -1,6 +1,6 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.148.1/containers/rust/.devcontainer/base.Dockerfile
 # figlet with comments | sed -e 's/^/#  /'
-FROM mcr.microsoft.com/vscode/devcontainers/rust:0-1
+FROM mcr.microsoft.com/vscode/devcontainers/rust:1
 
 ARG PULUMI_VERSION=3.0.0
 ARG TRUNK_VERSION=v0.11.0
