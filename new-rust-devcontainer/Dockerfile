@@ -11,11 +11,16 @@ RUN apt-get update \
         # CA certificates - used by curl i.e. for rustup
         #ca-certificates \
         curl \
+        xz-utils \
         unzip
 
 RUN curl https://github.com/sagiegurari/cargo-make/releases/download/0.34.0/cargo-make-v0.34.0-x86_64-unknown-linux-musl.zip -L -o cargo-make.zip \
     && unzip cargo-make.zip \
     && mv cargo-make-v0.34.0-x86_64-unknown-linux-musl/cargo-make /home
+
+RUN curl https://github.com/watchexec/cargo-watch/releases/download/v7.8.0/cargo-watch-v7.8.0-x86_64-unknown-linux-musl.tar.xz -L -o cargo-watch.tar.xz \
+    && tar -xf cargo-watch.tar.xz \
+    && mv cargo-watch-v7.8.0-x86_64-unknown-linux-musl/cargo-watch /home
 
 FROM rust:1.51-slim-buster
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
@@ -59,6 +64,7 @@ COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
 ENV DOCKER_BUILDKIT=1
 
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
+COPY --chown=$USERNAME --from=builder /home/cargo-watch $CARGO_HOME/bin
 
 # My git aliases
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
