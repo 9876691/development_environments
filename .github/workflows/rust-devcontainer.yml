@@ -1,0 +1,21 @@
+name: Build Rust DevContainer
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'new-rust-devcontainer/**'
+
+jobs:
+  build:
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Build Docker file
+        run: |
+          docker build -t ianpurton/rust-slim-devcontainer new-rust-devcontainer
+          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+          docker push ianpurton/rust-slim-devcontainer
