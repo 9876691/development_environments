@@ -3,7 +3,6 @@ ARG DOCKER_VERSION=v20.10.7
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
 FROM rust:1.51-slim-buster
-
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
 # with bind mounts. Update USER_UID / USER_GID if yours is not 1000. See
