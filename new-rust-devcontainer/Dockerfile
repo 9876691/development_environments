@@ -58,10 +58,6 @@ USER $USERNAME
 COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
 ENV DOCKER_BUILDKIT=1
 
-# Docker CLI
-COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
-ENV DOCKER_BUILDKIT=1
-
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
 
 # My git aliases
