@@ -66,6 +66,9 @@ ENV DOCKER_BUILDKIT=1
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
 COPY --chown=$USERNAME --from=builder /home/cargo-watch $CARGO_HOME/bin
 
+# Essential tools
+RUN rustup component add rustfmt clippy
+
 # My git aliases
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
     && echo "alias gcm='git checkout master'"  >> ~/.bashrc \  
