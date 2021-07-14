@@ -2,6 +2,21 @@ ARG DOCKER_VERSION=v20.10.7
 
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
+# Do all the cargo install stuff
+FROM rust:1.51-slim-buster as builder
+
+# Configure apt and install packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        # CA certificates - used by curl i.e. for rustup
+        #ca-certificates \
+        curl \
+        unzip
+
+RUN curl https://github.com/sagiegurari/cargo-make/releases/download/0.34.0/cargo-make-v0.34.0-x86_64-unknown-linux-musl.zip -L -o cargo-make.zip \
+    && unzip cargo-make.zip \
+    && mv cargo-make-v0.34.0-x86_64-unknown-linux-musl/cargo-make /home
+
 FROM rust:1.51-slim-buster
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
@@ -42,6 +57,12 @@ USER $USERNAME
 # Docker CLI
 COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
 ENV DOCKER_BUILDKIT=1
+
+# Docker CLI
+COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
+ENV DOCKER_BUILDKIT=1
+
+COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
 
 # My git aliases
 RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
