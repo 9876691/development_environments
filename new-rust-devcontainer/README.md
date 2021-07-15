@@ -7,9 +7,11 @@
 
 ## Start a new Project
 
-`cargo new proj-name`
+`mkdir proj-name`
 
 `cd proj-name`
+
+`cargo init`
 
 ## Create .devcontainer
 
