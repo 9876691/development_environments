@@ -69,14 +69,3 @@ COPY --chown=$USERNAME --from=builder /home/cargo-watch $CARGO_HOME/bin
 
 # Essential tools
 RUN rustup component add rustfmt clippy
-
-# My git aliases
-RUN echo "alias gst='git status'"  >> ~/.bashrc \ 
-    && echo "alias gcm='git checkout master'"  >> ~/.bashrc \  
-    && echo "alias c=clear"  >> ~/.bashrc \  
-    && echo "alias gp='git push'"  >> ~/.bashrc \  
-    && echo "alias gcam='git commit -a -m'"  >> ~/.bashrc \  
-    && echo "alias gpsup='git push --set-upstream origin $(git_current_branch)'"  >> ~/.bashrc \  
-    && echo "alias gcb='git checkout -b'" >> ~/.bashrc \
-    && echo "alias gitsetup='git config --global user.name \$NAME && git config --global user.email \$EMAIL && mkdir -p ~/.ssh && cp -u /home/host-ssh/id_rsa ~/.ssh && chmod 600 ~/.ssh/id_rsa && ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub'" >> ~/.bashrc
-  
