@@ -3,7 +3,7 @@ ARG DOCKER_VERSION=v20.10.7
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
 # Do all the cargo install stuff
-FROM rust:1.51-slim-buster as builder
+FROM rust:slim as builder
 
 # Configure apt and install packages
 RUN apt-get update \
@@ -31,16 +31,12 @@ ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PULUMI_VERSION=2.14.0
-
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Configure apt and install packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        # CA certificates - used by curl i.e. for rustup
-        #ca-certificates \
         curl \
         git \
         ssh \
