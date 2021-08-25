@@ -13,7 +13,7 @@ RUN sudo apt-get update \
     && sudo apt-get clean -y \
     && sudo rm -r /var/cache/* /var/lib/apt/lists/*
 
-RUN cargo install diesel_cli --no-default-features --features postgres && ls -la /home/vscode
+RUN cargo install diesel_cli --no-default-features --features postgres
 
 FROM ianpurton/rust-slim-devcontainer:latest AS development
 
