@@ -22,7 +22,7 @@ RUN curl https://github.com/watchexec/cargo-watch/releases/download/v7.8.0/cargo
     && tar -xf cargo-watch.tar.xz \
     && mv cargo-watch-v7.8.0-x86_64-unknown-linux-musl/cargo-watch /home
 
-FROM rust:1.51-slim-buster
+FROM rust:1.55-slim-buster
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
 # with bind mounts. Update USER_UID / USER_GID if yours is not 1000. See
