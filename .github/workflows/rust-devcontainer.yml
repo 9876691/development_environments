@@ -19,6 +19,6 @@ jobs:
       
       - name: Build Docker file
         run: |
-          docker build -t ianpurton/rust-slim-devcontainer new-rust-devcontainer
+          docker build -t ianpurton/rust-fullstack-devcontainer new-rust-devcontainer
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
-          docker push ianpurton/rust-slim-devcontainer
+          docker push ianpurton/rust-fullstack-devcontainer
