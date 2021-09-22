@@ -82,3 +82,5 @@ RUN rustup component add rustfmt clippy
 # For musl builds
 RUN rustup target add x86_64-unknown-linux-musl
 
+# Earthly
+RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v0.5.23/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
