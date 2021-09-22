@@ -48,7 +48,6 @@ RUN apt-get update \
         git \
         ssh \
         sudo \
-        nodejs \
         postgresql-client \
         # required by parcel or you can't npm install 
         build-essential \
@@ -58,6 +57,11 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -r /var/cache/* /var/lib/apt/lists/*
+
+
+# Install node.
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
 
 # Create a non-root user
 RUN groupadd --gid $USER_GID $USERNAME \
