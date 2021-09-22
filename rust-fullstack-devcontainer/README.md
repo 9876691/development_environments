@@ -1,6 +1,6 @@
 ## Build locally
 
-`cd new-rust-devcontainer`
+`cd rust-fullstack-devcontainer`
 
 `docker build -t ianpurton/rust-fullstack-devcontainer .` 
 
