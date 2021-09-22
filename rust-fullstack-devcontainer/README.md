@@ -19,11 +19,11 @@
 mkdir .devcontainer \
   && curl -L https://github.com/ianpurton/development_environments/archive/master.zip -O -J \
   && unzip development_environments-master.zip \
-  && mv development_environments-master/new-rust-devcontainer/Dockerfile.devcontainer .devcontainer/Dockerfile \
-  && mv development_environments-master/new-rust-devcontainer/docker-compose.yml .devcontainer \
-  && mv development_environments-master/new-rust-devcontainer/devcontainer.json .devcontainer \
-  && mv development_environments-master/new-rust-devcontainer/ps1.bash .devcontainer \
-  && mv development_environments-master/new-rust-devcontainer/aliases.bash .devcontainer \
+  && mv development_environments-master/rust-fullstack-devcontainer/Dockerfile.devcontainer .devcontainer/Dockerfile \
+  && mv development_environments-master/rust-fullstack-devcontainer/docker-compose.yml .devcontainer \
+  && mv development_environments-master/rust-fullstack-devcontainer/devcontainer.json .devcontainer \
+  && mv development_environments-master/rust-fullstack-devcontainer/ps1.bash .devcontainer \
+  && mv development_environments-master/rust-fullstack-devcontainer/aliases.bash .devcontainer \
   && rm -rf development_environments-master*
 ```
 
@@ -33,11 +33,11 @@ Windows
 mkdir .devcontainer 
 curl -L https://github.com/ianpurton/development_environments/archive/master.zip -O -J
 tar -xf  development_environments-master.zip 
-move development_environments-master\new-rust-devcontainer\Dockerfile.devcontainer .devcontainer\Dockerfile
-move development_environments-master\new-rust-devcontainer\docker-compose.yml .devcontainer 
-move development_environments-master\new-rust-devcontainer\devcontainer.json .devcontainer 
-move development_environments-master\new-rust-devcontainer\ps1.bash .devcontainer 
-move development_environments-master\new-rust-devcontainer\aliases.bash .devcontainer 
+move development_environments-master\rust-fullstack-devcontainer\Dockerfile.devcontainer .devcontainer\Dockerfile
+move development_environments-master\rust-fullstack-devcontainer\docker-compose.yml .devcontainer 
+move development_environments-master\rust-fullstack-devcontainer\devcontainer.json .devcontainer 
+move development_environments-master\rust-fullstack-devcontainer\ps1.bash .devcontainer 
+move development_environments-master\rust-fullstack-devcontainer\aliases.bash .devcontainer 
 del /S development_environments-master.zip
 rmdir /S /Q development_environments-master
 ```
