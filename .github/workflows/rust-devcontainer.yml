@@ -5,7 +5,7 @@ on:
     branches:
     - master
     paths:
-    - 'new-rust-devcontainer/**'
+    - 'rust-fullstack-devcontainer/**'
 
 jobs:
   build:
