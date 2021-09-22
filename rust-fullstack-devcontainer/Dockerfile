@@ -51,6 +51,10 @@ RUN apt-get update \
         postgresql-client \
         # required by parcel or you can't npm install 
         build-essential \
+        # For musl builds
+        musl-dev \
+        musl-tools \
+        musl \
     #
     #
     # Clean up
