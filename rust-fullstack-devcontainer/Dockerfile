@@ -29,7 +29,7 @@ RUN cargo install diesel_cli --no-default-features --features postgres
 RUN cargo install cargo-chef --locked
 
 
-FROM rust:1.55-slim-buster
+FROM rust:1.56-slim-buster
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
 # with bind mounts. Update USER_UID / USER_GID if yours is not 1000. See
