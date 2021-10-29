@@ -1,6 +1,24 @@
 ARG DOCKER_VERSION=v20.10.7
 ARG NODE_VERSION=16.9.1
 
+# Build mold into --> /usr/bin/mold
+FROM ubuntu:20.04 as mold
+
+RUN apt-get update && \
+  TZ=Europe/London apt-get install -y tzdata && \
+  apt-get install -y build-essential git clang lld cmake \
+    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/rui314/mold.git && \
+    cd mold && \
+    git checkout v0.9.6
+
+RUN cd mold && \
+    make -j$(nproc) 
+
+RUN cd mold && make install
+
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
 # Do all the cargo install stuff
@@ -77,6 +95,7 @@ USER $USERNAME
 
 # Docker CLI
 COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
+
 ENV DOCKER_BUILDKIT=1
 
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
@@ -89,6 +108,9 @@ RUN rustup component add rustfmt clippy
 
 # For musl builds
 RUN rustup target add x86_64-unknown-linux-musl
+
+# mold
+COPY --chown=$USERNAME --from=mold /usr/bin/mold /usr/bin/mold
 
 # Earthly
 RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v0.5.23/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
