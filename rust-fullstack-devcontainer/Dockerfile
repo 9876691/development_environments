@@ -107,6 +107,7 @@ RUN rustup target add x86_64-unknown-linux-musl
 
 # mold
 COPY --chown=$USERNAME --from=mold /mold/mold /usr/bin/mold
+COPY --chown=$USERNAME --from=mold /mold/mold-wrapper.so /usr/bin/mold-wrapper.so
 
 # Earthly
 RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v0.5.23/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
