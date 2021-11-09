@@ -1,7 +1,7 @@
 ARG DOCKER_VERSION=v20.10.7
 ARG NODE_VERSION=16.9.1
 
-FROM ubuntu:20.04 as mold
+FROM rust:1.56-slim-buster as mold
 
 RUN apt-get update && \
   TZ=Europe/London apt-get install -y tzdata && \
