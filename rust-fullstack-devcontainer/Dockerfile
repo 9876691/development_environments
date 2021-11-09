@@ -3,11 +3,12 @@ ARG NODE_VERSION=16.9.1
 
 FROM rust:1.56-slim-buster as mold
 
-RUN apt-get update && \
-  TZ=Europe/London apt-get install -y tzdata && \
-  apt-get install -y build-essential git clang lld cmake \
-    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
-  rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y build-essential
+#RUN apt-get update && \
+#  TZ=Europe/London apt-get install -y tzdata && \
+#  apt-get install -y build-essential git clang lld cmake \
+#    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
+#  rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
 
