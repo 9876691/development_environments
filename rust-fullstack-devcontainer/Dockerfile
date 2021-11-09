@@ -9,9 +9,7 @@ RUN apt-get update && \
     libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
   rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/rui314/mold.git && \
-    cd mold && \
-    git checkout v0.9.6
+RUN git clone https://github.com/rui314/mold.git 
 
 RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="-fuse-ld=lld -static -Wl,-u,pthread_rwlock_rdlock -Wl,-u,pthread_rwlock_rdlock -Wl,-u,pthread_rwlock_wrlock"
 
