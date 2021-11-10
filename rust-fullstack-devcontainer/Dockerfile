@@ -1,18 +1,22 @@
 ARG DOCKER_VERSION=v20.10.7
 ARG NODE_VERSION=16.9.1
 
-FROM rust:1.56-slim-buster as mold
+FROM ubuntu:20.04 as mold
 
-RUN apt-get update && apt-get install -y build-essential git cmake
-#RUN apt-get update && \
-#  TZ=Europe/London apt-get install -y tzdata && \
-#  apt-get install -y build-essential git clang lld cmake \
-#    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
-#  rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+  TZ=Europe/London apt-get install -y tzdata && \
+  apt-get install -y build-essential git clang lld cmake \
+    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
+  rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
 
-RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="-fuse-ld=lld -static -Wl,-u,pthread_rwlock_rdlock -Wl,-u,pthread_rwlock_rdlock -Wl,-u,pthread_rwlock_wrlock"
+ENV LDFLAGS='-fuse-ld=lld -static'
+ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
+ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_unlock"
+ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_wrlock"
+
+RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
 
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
@@ -42,7 +46,7 @@ RUN cargo install diesel_cli --no-default-features --features postgres
 RUN cargo install cargo-chef --locked
 
 
-FROM rust:1.56-slim-buster
+FROM rust:slim
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
 # this user's GID/UID must match your local user UID/GID to avoid permission issues
 # with bind mounts. Update USER_UID / USER_GID if yours is not 1000. See
