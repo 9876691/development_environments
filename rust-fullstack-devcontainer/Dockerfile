@@ -114,4 +114,4 @@ COPY --chown=$USERNAME --from=mold /mold/mold /usr/bin/mold
 COPY --chown=$USERNAME --from=mold /mold/mold-wrapper.so /usr/bin/mold-wrapper.so
 
 # Earthly
-RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v$EARTHLY_VERSION/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
+RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v${EARTHLY_VERSION}/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
