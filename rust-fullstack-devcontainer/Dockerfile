@@ -72,13 +72,18 @@ RUN apt-get update \
         musl-dev \
         musl-tools \
         musl \
+        # Docker in Docker for Earthly
+        apt-transport-https \
+        ca-certificates \
+        gnupg-agent \
+        gnupg \
+        software-properties-common \
     #
     #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -r /var/cache/* /var/lib/apt/lists/*
-
 
 # Install node.
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -112,5 +117,34 @@ RUN rustup target add x86_64-unknown-linux-musl
 COPY --chown=$USERNAME --from=mold /mold/mold /usr/bin/mold
 COPY --chown=$USERNAME --from=mold /mold/mold-wrapper.so /usr/bin/mold-wrapper.so
 
+
+# Docker Engine for Earthly. 
+RUN sudo apt-get update \
+    && sudo apt-get install -y --no-install-recommends \
+        # Docker in Docker for Earthly
+        apt-transport-https \
+        ca-certificates \
+        gnupg-agent \
+        gnupg \
+        software-properties-common \
+    #
+    #
+    # Clean up
+    && sudo apt-get autoremove -y \
+    && sudo apt-get clean -y \
+    && sudo rm -r /var/cache/* /var/lib/apt/lists/*
+RUN  curl -fsSL "https://download.docker.com/linux/debian/gpg" | sudo apt-key add -
+RUN sudo add-apt-repository \
+        "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+        $(lsb_release -cs) \
+        stable" \
+    && sudo apt-get update \
+    && sudo apt-get install -y docker-ce docker-ce-cli containerd.io \
+    #
+    #
+    # Clean up
+    && sudo apt-get autoremove -y \
+    && sudo apt-get clean -y \
+    && sudo rm -r /var/cache/* /var/lib/apt/lists/*
 # Earthly
 RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v0.6.1/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
