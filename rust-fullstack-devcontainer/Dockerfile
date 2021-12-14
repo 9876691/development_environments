@@ -97,11 +97,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     
 USER $USERNAME
 
-# Docker CLI
-COPY --chown=$USERNAME --from=docker /bin /usr/local/bin/docker
-
-ENV DOCKER_BUILDKIT=1
-
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
 COPY --chown=$USERNAME --from=builder /home/cargo-watch $CARGO_HOME/bin
 COPY --chown=$USERNAME --from=builder /usr/local/cargo/bin/diesel $CARGO_HOME/bin/diesel
