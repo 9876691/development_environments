@@ -1,5 +1,6 @@
 ARG DOCKER_VERSION=v20.10.7
 ARG NODE_VERSION=16.9.1
+ARG EARTHLY_VERSION=0.6.3
 
 FROM ubuntu:20.04 as mold
 
@@ -142,4 +143,4 @@ RUN sudo add-apt-repository \
     && sudo apt-get clean -y \
     && sudo rm -r /var/cache/* /var/lib/apt/lists/*
 # Earthly
-RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v0.6.1/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
+RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v$EARTHLY_VERSION/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
