@@ -12,7 +12,7 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
-RUN git checkout v{$MOLD_VERSION}
+RUN cd mold && git checkout v{$MOLD_VERSION}
 
 ENV LDFLAGS='-fuse-ld=lld -static'
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
