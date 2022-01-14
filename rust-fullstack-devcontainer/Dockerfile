@@ -12,7 +12,7 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
-RUN git checkout v$MOLD_VERSION
+RUN git checkout v{$MOLD_VERSION}
 
 ENV LDFLAGS='-fuse-ld=lld -static'
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
@@ -145,4 +145,4 @@ RUN sudo add-apt-repository \
     && sudo apt-get clean -y \
     && sudo rm -r /var/cache/* /var/lib/apt/lists/*
 # Earthly
-RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v$EARTHLY_VERSION/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
+RUN sudo /bin/sh -c 'curl -L https://github.com/earthly/earthly/releases/download/v${EARTHLY_VERSION}/earthly-linux-amd64 --output /usr/bin/earthly && chmod +x /usr/bin/earthly'
