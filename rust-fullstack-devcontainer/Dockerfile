@@ -1,6 +1,7 @@
 ARG DOCKER_VERSION=v20.10.7
 ARG NODE_VERSION=16.9.1
 ARG EARTHLY_VERSION=0.6.3
+ARG MOLD_VERSION=1.0.1
 
 FROM ubuntu:20.04 as mold
 
@@ -11,6 +12,7 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
+RUN git checkout v$MOLD_VERSION
 
 ENV LDFLAGS='-fuse-ld=lld -static'
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
