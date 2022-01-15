@@ -12,15 +12,15 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/rui314/mold.git 
-RUN cd mold && git checkout $MOLD_VERSION
+RUN cd mold && git checkout ${MOLD_VERSION}
 
 ENV LDFLAGS='-fuse-ld=lld -static'
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_unlock"
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_wrlock"
 
-#RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
-RUN make -C /mold -j"$(nproc)" CC=clang CXX=clang++ EXTRA_LDFLAGS="$LDFLAGS"
+RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
+#RUN make -C /mold -j"$(nproc)" CC=clang CXX=clang++ EXTRA_LDFLAGS="$LDFLAGS"
 
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
