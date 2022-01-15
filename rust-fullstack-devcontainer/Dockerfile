@@ -17,8 +17,8 @@ ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_unlock"
 ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_wrlock"
 
-#RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
-RUN make -C /mold -j"$(nproc)" CC=clang CXX=clang++ EXTRA_LDFLAGS="$LDFLAGS"
+RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
+#RUN make -C /mold -j"$(nproc)" CC=clang CXX=clang++ EXTRA_LDFLAGS="$LDFLAGS"
 
 FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
 
