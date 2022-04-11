@@ -39,7 +39,6 @@ RUN apt-get update \
         git \
         ssh \
         sudo \
-        postgresql-client \
         # required by parcel or you can't npm install 
         build-essential \
         # For musl builds
@@ -58,6 +57,14 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -r /var/cache/* /var/lib/apt/lists/*
+    
+
+# Install psql 14
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+   && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+   && apt-get -y update \
+   && apt-get -y install postgresql-client \
+   && apt-get autoremove -y && apt-get clean -y
 
 # Install node.
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -100,23 +107,7 @@ RUN sudo curl -OL https://github.com/rui314/mold/releases/download/v$MOLD_VERSIO
     && sudo mv ./mold-$MOLD_VERSION-x86_64-linux/lib/mold/mold-wrapper.so /usr/bin/ \
     && sudo chmod +x /usr/bin/mold
 
-
-
 # Docker Engine for Earthly. 
-RUN sudo apt-get update \
-    && sudo apt-get install -y --no-install-recommends \
-        # Docker in Docker for Earthly
-        apt-transport-https \
-        ca-certificates \
-        gnupg-agent \
-        gnupg \
-        software-properties-common \
-    #
-    #
-    # Clean up
-    && sudo apt-get autoremove -y \
-    && sudo apt-get clean -y \
-    && sudo rm -r /var/cache/* /var/lib/apt/lists/*
 RUN  curl -fsSL "https://download.docker.com/linux/debian/gpg" | sudo apt-key add -
 RUN sudo add-apt-repository \
         "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
