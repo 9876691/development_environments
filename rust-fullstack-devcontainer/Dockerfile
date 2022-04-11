@@ -1,38 +1,11 @@
-ARG DOCKER_VERSION=v20.10.7
-ARG NODE_VERSION=16.9.1
-
-FROM ubuntu:20.04 as mold
-
-RUN apt-get update && \
-  TZ=Europe/London apt-get install -y tzdata && \
-  apt-get install -y build-essential git clang lld cmake \
-    libstdc++-10-dev libxxhash-dev zlib1g-dev libssl-dev && \
-  rm -rf /var/lib/apt/lists/*
-
-RUN git clone https://github.com/rui314/mold.git 
-RUN cd mold && git checkout v0.9.6
-
-ENV LDFLAGS='-fuse-ld=lld -static'
-ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_rdlock"
-ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_unlock"
-ENV LDFLAGS="$LDFLAGS -Wl,-u,pthread_rwlock_wrlock"
-
-RUN make -C /mold -j$(nproc) EXTRA_LDFLAGS="$LDFLAGS"
-#RUN make -C /mold -j"$(nproc)" CC=clang CXX=clang++ EXTRA_LDFLAGS="$LDFLAGS"
-
-FROM qmcgaw/binpot:docker-${DOCKER_VERSION} AS docker
-
 # Do all the cargo install stuff
 FROM rust:slim as builder
 
 # Configure apt and install packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        # CA certificates - used by curl i.e. for rustup
-        #ca-certificates \
         curl \
         xz-utils \
-        libpq-dev \
         unzip
 
 RUN curl https://github.com/sagiegurari/cargo-make/releases/download/0.34.0/cargo-make-v0.34.0-x86_64-unknown-linux-musl.zip -L -o cargo-make.zip \
@@ -42,8 +15,6 @@ RUN curl https://github.com/sagiegurari/cargo-make/releases/download/0.34.0/carg
 RUN curl https://github.com/watchexec/cargo-watch/releases/download/v7.8.0/cargo-watch-v7.8.0-x86_64-unknown-linux-musl.tar.xz -L -o cargo-watch.tar.xz \
     && tar -xf cargo-watch.tar.xz \
     && mv cargo-watch-v7.8.0-x86_64-unknown-linux-musl/cargo-watch /home
-
-RUN cargo install diesel_cli --no-default-features --features postgres
 
 RUN cargo install cargo-chef --locked
 
@@ -102,7 +73,6 @@ USER $USERNAME
 
 COPY --chown=$USERNAME --from=builder /home/cargo-make $CARGO_HOME/bin
 COPY --chown=$USERNAME --from=builder /home/cargo-watch $CARGO_HOME/bin
-COPY --chown=$USERNAME --from=builder /usr/local/cargo/bin/diesel $CARGO_HOME/bin/diesel
 COPY --chown=$USERNAME --from=builder /usr/local/cargo/bin/cargo-chef $CARGO_HOME/bin
 
 # Essential tools
@@ -111,9 +81,25 @@ RUN rustup component add rustfmt clippy
 # For musl builds
 RUN rustup target add x86_64-unknown-linux-musl
 
+
+# Install secrets management
+ARG CLOAK_VERSION=1.1.0
+RUN sudo /bin/sh -c "wget https://github.com/purton-tech/cloak/releases/download/v$CLOAK_VERSION/cli -O /usr/local/bin/cloak && chmod +x /usr/local/bin/cloak"
+
+# Database migrations   
+ARG DBMATE_VERSION=1.15.0
+RUN sudo curl -OL https://github.com/amacneil/dbmate/releases/download/v$DBMATE_VERSION/dbmate-linux-amd64 \
+    && sudo mv ./dbmate-linux-amd64 /usr/bin/dbmate \
+    && sudo chmod +x /usr/bin/dbmate
+
 # mold
-COPY --chown=$USERNAME --from=mold /mold/mold /usr/bin/mold
-COPY --chown=$USERNAME --from=mold /mold/mold-wrapper.so /usr/bin/mold-wrapper.so
+ARG MOLD_VERSION=1.1.1
+RUN sudo curl -OL https://github.com/rui314/mold/releases/download/v$MOLD_VERSION/mold-$MOLD_VERSION-x86_64-linux.tar.gz \
+    && sudo tar -xf mold-$MOLD_VERSION-x86_64-linux.tar.gz \
+    && sudo mv ./mold-$MOLD_VERSION-x86_64-linux/bin/mold /usr/bin/ \
+    && sudo mv ./mold-$MOLD_VERSION-x86_64-linux/lib/mold/mold-wrapper.so /usr/bin/ \
+    && sudo chmod +x /usr/bin/mold
+
 
 
 # Docker Engine for Earthly. 
@@ -144,5 +130,6 @@ RUN sudo add-apt-repository \
     && sudo apt-get autoremove -y \
     && sudo apt-get clean -y \
     && sudo rm -r /var/cache/* /var/lib/apt/lists/*
+
 # Earthly
 RUN sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'
