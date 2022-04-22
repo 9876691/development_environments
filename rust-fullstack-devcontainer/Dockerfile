@@ -91,7 +91,7 @@ RUN rustup target add x86_64-unknown-linux-musl
 
 # Install secrets management
 ARG CLOAK_VERSION=1.10.0
-RUN sudo /bin/sh -c "wget https://github.com/purton-tech/cloak/releases/download/v$CLOAK_VERSION/cli -O /usr/local/bin/cloak && chmod +x /usr/local/bin/cloak"
+RUN sudo /bin/sh -c "wget https://github.com/purton-tech/cloak/releases/download/v$CLOAK_VERSION/cloak-linux -O /usr/local/bin/cloak && chmod +x /usr/local/bin/cloak"
 
 # Database migrations   
 ARG DBMATE_VERSION=1.15.0
